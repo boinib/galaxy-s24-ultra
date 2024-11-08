@@ -68,8 +68,8 @@ jobs:
             APP_NAME=$(basename $JAR | cut -d '-' -f 1)
             echo "Deploying $APP_NAME..."
           
-            scp -o StrictHostKeyChecking=no -i $GITHUB_WORKSPACE/azure_key.pem $JAR azureuser@$AZURE_VM_IP:/home/azureuser/
-            ssh -o StrictHostKeyChecking=no -i $GITHUB_WORKSPACE/azure_key.pem azureuser@$AZURE_VM_IP \
+            scp -o StrictHostKeyChecking=no -i $GITHUB_WORKSPACE/azure_key.pem $JAR azureuser@${{secrets.AZURE_VM_IP}}:/home/azureuser/
+            ssh -o StrictHostKeyChecking=no -i $GITHUB_WORKSPACE/azure_key.pem azureuser@${{secrets.AZURE_VM_IP}} \
               "nohup java -jar /home/azureuser/$(basename $JAR) > /dev/null 2>&1 &"
             sleep 10
           done
