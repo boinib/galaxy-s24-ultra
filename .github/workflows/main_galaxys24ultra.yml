@@ -30,34 +30,32 @@ jobs:
 
     steps:
       - name: Set up SSH private key
-        run: echo "${{ secrets.AZURE_SSH_KEY }}" > $GITHUB_WORKSPACE/azure_key.pem
+        run: echo "${{secrets.AZURE_SSH_KEY}}" > $GITHUB_WORKSPACE/azure_key.pem
 
       - name: Set permissions on the SSH key
         run: chmod 600 $GITHUB_WORKSPACE/azure_key.pem
 
-      - name: Trim spaces and check AZURE_VM_IP
-        run: |
-          # Remove leading/trailing spaces from AZURE_VM_IP
-          AZURE_VM_IP=$(echo "${{ secrets.AZURE_VM_IP }}" | xargs)
-          echo "Trimmed AZURE_VM_IP is: '$AZURE_VM_IP'"
-          
-          # Check if the variable is empty
-          if [[ -z "$AZURE_VM_IP" ]]; then
-            echo "Error: AZURE_VM_IP is empty or invalid!"
-            exit 1
-          fi
       - name: Test SSH connection to VM
         run: |
-          echo "Testing SSH connection to VM with IP: $AZURE_VM_IP"
-          ssh -o StrictHostKeyChecking=no -i $GITHUB_WORKSPACE/azure_key.pem azureuser@$AZURE_VM_IP 'echo "SSH connection successful!"'
-      - name: Deploy and start JAR applications
+          echo "Testing SSH connection to VM:"
+          ssh -o StrictHostKeyChecking=no -i $GITHUB_WORKSPACE/azure_key.pem azureuser@${{secrets.AZURE_VM_IP}} 'echo "SSH connection successful!"'
+      - name: List JAR files found
         run: |
-          for JAR in $(find . -name "*.jar"); do
-            APP_NAME=$(basename $JAR | cut -d '-' -f 1)
-            echo "Deploying $APP_NAME..."
+          echo "Listing all JAR files found:"
+          find . -name "*.jar"
+      - name: Deploy and start applications
+        run: |
+          modules=("User" "Course" "Exam" "Question" "Intake")
           
-            scp -o StrictHostKeyChecking=no -i $GITHUB_WORKSPACE/azure_key.pem $JAR azureuser@$AZURE_VM_IP:/home/azureuser/
-            ssh -o StrictHostKeyChecking=no -i $GITHUB_WORKSPACE/azure_key.pem azureuser@$AZURE_VM_IP \
-              "nohup java -jar /home/azureuser/$(basename $JAR) > /dev/null 2>&1 &"
+          for module in "${modules[@]}"; do
+            JAR_PATH="./$module/target/$module-0.0.1-SNAPSHOT.jar"
+            echo "Deploying $module JAR to VM..."
+          
+            scp -o StrictHostKeyChecking=no -i $GITHUB_WORKSPACE/azure_key.pem $JAR_PATH azureuser@${{ secrets.AZURE_VM_IP }}:/home/azureuser/
+          
+            echo "Starting $module application on VM..."
+            ssh -o StrictHostKeyChecking=no -i $GITHUB_WORKSPACE/azure_key.pem azureuser@${{ secrets.AZURE_VM_IP }} \
+              "nohup java -jar /home/azureuser/$(basename $JAR_PATH) > /dev/null 2>&1 &"
+          
             sleep 10
           done
