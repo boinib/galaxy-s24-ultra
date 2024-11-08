@@ -1,0 +1,157 @@
+name: Build and deploy JAR app - galaxys24ultra
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Java version
+        uses: actions/setup-java@v1
+        with:
+          java-version: '19'
+
+      - name: Build project with Maven
+        run: mvn clean package
+
+      - name: List target directory
+        run: |
+          echo "Listing target directory:"
+          ls -la **/target/*.jar
+      - name: Upload JAR artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: jar-artifacts
+          path: '**/target/*.jar'
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: 'Production'
+
+    steps:
+      - name: Download JAR artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: jar-artifacts
+
+
+      #We weten dat dit geen veilige manier is, maar omdat we geen toegang hebben tot github secrets moest het maar zo. Env. files werkten ook niet.
+      - name: Set variables
+        run: |
+          echo "AZURE_VM_IP=20.224.12.16" >> $GITHUB_ENV
+      - name: Create SSH key file
+        run: |
+          echo "-----BEGIN RSA PRIVATE KEY-----" > $GITHUB_WORKSPACE/Galaxys24-ultra_key.pem
+          echo "MIIG5AIBAAKCAYEAouLSMQfg4YlzpzgcG+9LgLzuRipX/g7ttFIZcMQVepMJcJXk" >> $GITHUB_WORKSPACE/Galaxys24-ultra_key.pem
+          echo "hyg1bO/RwY4v2NPiOnrikAafbvzMxDcT74tQJY/7LhZ3mvZVmL7xZyLiFZwMe5Us" >> $GITHUB_WORKSPACE/Galaxys24-ultra_key.pem
+          echo "xD4fMu9JIezqprB6HaOLzX9MB4JZ7tvxCa+S2Ui73oLAadgNzDlA04BFlFJ4tsqG" >> $GITHUB_WORKSPACE/Galaxys24-ultra_key.pem
+          echo "3tmDRJusWrod1hSfUJiWGszBFYMdNjCDReXaI1gZqZaEP+TkZXG0ve/BkX/aTspE" >> $GITHUB_WORKSPACE/Galaxys24-ultra_key.pem
+          echo "wdb/4+o60u5JCsKHgu/3V5tY1ZUVVALuRayuLEfUgkUioO+1VnwkkZMCw3ZarMAL" >> $GITHUB_WORKSPACE/Galaxys24-ultra_key.pem
+          echo "BeG5kbNe34N8fhu0mFSJG2UasE5ejWmixfv2TCQUMyGXQw75r3rsx/kjaYXI/6TN" >> $GITHUB_WORKSPACE/Galaxys24-ultra_key.pem
+          echo "X9HrpuhtMiqPhhy/K3IW4zVzQApIS6kdLLgdv1Winz7YLHxPGJBR3YZok5HWc5oL" >> $GITHUB_WORKSPACE/Galaxys24-ultra_key.pem
+          echo "p9+LVGRtyHThDmVQlWO4AKsCZlLw/tLkU9sXd/F7qexRhxFA1i6ncBjr8bxIny+y" >> $GITHUB_WORKSPACE/Galaxys24-ultra_key.pem
+          echo "R7OzwW1rEHn8gyG5AgMBAAECggGAEk4VOwdcoVv2EFPA7O6+eHBDAsWdb+KzmfEk" >> $GITHUB_WORKSPACE/Galaxys24-ultra_key.pem
+          echo "BMU0eLrvc6SUsw+0uVJWKz9UZzSgltvafD8SScHFLUPXTLNGRYJhwvMpa9PFGM5U" >> $GITHUB_WORKSPACE/Galaxys24-ultra_key.pem
+          echo "iLel2rHXwUepaUBl9y5m9JYQZL0ubAhGHMjyfWGLw8kZ1HHTufFvk3j0MLDkFBBX" >> $GITHUB_WORKSPACE/Galaxys24-ultra_key.pem
+          echo "Fa2zpBCEml42O/MLynkILIX/9mAI62DKdaaPCGDctotLJV7IXfJ3p9RPdnK9rBzU" >> $GITHUB_WORKSPACE/Galaxys24-ultra_key.pem
+          echo "KAg6o6RPn00h3vrPdQiMpcm7kab8r6oK+0km66vneOaGwMIoufFRXh75mWshy9Y4" >> $GITHUB_WORKSPACE/Galaxys24-ultra_key.pem
+          echo "h2lDD+YklWDQUpM2mErRjZgBpfUxEE3e+RwTZh3qU6DIa9ceqxjXyAnx7tkFNJ5Y" >> $GITHUB_WORKSPACE/Galaxys24-ultra_key.pem
+          echo "EyxhYI1JgSZTAwiJ981fsdGUqyAkJTCUKms+ZgwIir4iwgWMRyfegbuFPTiVG8vW" >> $GITHUB_WORKSPACE/Galaxys24-ultra_key.pem
+          echo "LzytYYvIRJTyYbSFGzVOHhPNmUR2DW8pOOfmkkCcdbI19RWFJpLr2dAUi6hnrOo6" >> $GITHUB_WORKSPACE/Galaxys24-ultra_key.pem
+          echo "oQW8nRQn6IpCIvdA3WZMbRGdAGjFAoHBAMKZdjcUp65qGNYIkY3F+1x7Y0xH9MwT" >> $GITHUB_WORKSPACE/Galaxys24-ultra_key.pem
+          echo "EQ9pPszCCe3U6U8QwAET4AwKq0i/xHEqCAoTbDURmnk1Et5vRI+f+jgo86g/zCVq" >> $GITHUB_WORKSPACE/Galaxys24-ultra_key.pem
+          echo "h7GdMtsyMGMfneqyxe63YPhKHL9+G3N9OxytlVgruORiEj4OcY4spAuckc/KT0R3" >> $GITHUB_WORKSPACE/Galaxys24-ultra_key.pem
+          echo "PTdoqACq7/VtkfVnFKPTJHhkIu5eG/UocPZ0seH0flLsncV0ImKlNCuRiwkF3XV3" >> $GITHUB_WORKSPACE/Galaxys24-ultra_key.pem
+          echo "qAHkwRloAArN7PeRoBWBxJ5Seg4SeAk4zwKBwQDWR76AASQJoPzzZNdNrkSNehZe" >> $GITHUB_WORKSPACE/Galaxys24-ultra_key.pem
+          echo "0aK/QEnNEbP40rGJx4Wcwi11yXbS4Q0dH5QcatfZIKNq7hdXNIgBmKik+nfQAmVe" >> $GITHUB_WORKSPACE/Galaxys24-ultra_key.pem
+          echo "kuQ4D5IWNovRBg1xtjdfDrwAmrucZI/yKPpbYVt7gNpIbO+83OuJoq6sMclqKvKn" >> $GITHUB_WORKSPACE/Galaxys24-ultra_key.pem
+          echo "Rdq87MMIbzujrv4wVRNdqD423piS/jIOMghAIYq1T6GPU+w+QE8K1typYb7eHeIS" >> $GITHUB_WORKSPACE/Galaxys24-ultra_key.pem
+          echo "4Jn3FKHbAB9MxaaHj3dnKyJizzCQzIf9XOneDvcCgcEAkzNObt/a714mJ1EX+Sw3" >> $GITHUB_WORKSPACE/Galaxys24-ultra_key.pem
+          echo "tX9IX51WmUAa+ZNdA7oLlLInQb2j36zPH4y6gC8/Q3LN3gFPKt2EAgeZnFSCgjo7" >> $GITHUB_WORKSPACE/Galaxys24-ultra_key.pem
+          echo "Jlwj47NOk0cAGeSVYaWXYIO8CprsimSAn5BAKsITtcqW+lx7ydRY6bkdn3+BelBe" >> $GITHUB_WORKSPACE/Galaxys24-ultra_key.pem
+          echo "TsJCsfGRAHNKBS3PV6H2HaqibAVrYXkH72Gf4ruhXlMXD/a5z/gHzmZZ+dCdag0Z" >> $GITHUB_WORKSPACE/Galaxys24-ultra_key.pem
+          echo "Z5OSnmKnYIIAvl3xi2xWC9Y1WBf6BgrBVhmBZj+mOSOVAoHAQ/p4tfUmsKNQ/Ao2" >> $GITHUB_WORKSPACE/Galaxys24-ultra_key.pem
+          echo "v58UgmmD5UrOPawwfY0rMjntNs+EVMnJUD+8oYPh/CZDf4xps6lGDqs/3lt89jyu" >> $GITHUB_WORKSPACE/Galaxys24-ultra_key.pem
+          echo "67/F+Mh5zjn9isdtyfw9+O7ZnwR2poJvJCXydNf2TpWvbwQA2Lp1BVsB50GSu5RP" >> $GITHUB_WORKSPACE/Galaxys24-ultra_key.pem
+          echo "o7MbucGsP2LK1PqrmOZo3jGq1Dx5K1Ivgoq1jpRz3ssCkQ3TClgb4fN20/zk1oR5" >> $GITHUB_WORKSPACE/Galaxys24-ultra_key.pem
+          echo "doba3W5PhTuZvKff/TEZvOpLPWBHOgSWIRCn0JgCYF90lgzbAoHBALQdfwTY1FLj" >> $GITHUB_WORKSPACE/Galaxys24-ultra_key.pem
+          echo "ZfM7GVey6ZQO+gLIujWgw5qaED5F6WEREfyGA3pE12U5oNPWsSwZ9BYh5vsNXiIU" >> $GITHUB_WORKSPACE/Galaxys24-ultra_key.pem
+          echo "Tn/nEqdtTowOERQQQiUp42MAVxEP43T5NyPS7T1dgddqTXx8KocLejE97b1kH+Zx" >> $GITHUB_WORKSPACE/Galaxys24-ultra_key.pem
+          echo "SVmGHu5jt74MNIoCj7x8g5+VCIeHBrz9uqnRjIZSz7+bzMHO2i1JKPWfRW1jyI0J" >> $GITHUB_WORKSPACE/Galaxys24-ultra_key.pem
+          echo "dTRmE3o5wC4j/p//kzedclEeUmT6rJz4C5TmP5UK9Ug+U7JTieZsmw==" >> $GITHUB_WORKSPACE/Galaxys24-ultra_key.pem
+          echo "-----END RSA PRIVATE KEY-----" >> $GITHUB_WORKSPACE/Galaxys24-ultra_key.pem
+      - name: Set permissions on the key file
+        run: chmod 600 $GITHUB_WORKSPACE/Galaxys24-ultra_key.pem
+
+      - name: Check SSH connection
+        run: |
+          echo "Testing SSH connection to the VM:"
+          ssh -vvv -o StrictHostKeyChecking=no -i $GITHUB_WORKSPACE/Galaxys24-ultra_key.pem azureuser@"$AZURE_VM_IP" 'echo "SSH connection successful!"'
+
+      - name: Check target directory
+        run: ls -la **/target/
+
+      - name: List JAR files
+        run: find . -name "*.jar"
+
+
+
+      - name: Copy User JAR to VM
+        run: scp -o StrictHostKeyChecking=no -i $GITHUB_WORKSPACE/Galaxys24-ultra_key.pem ./User/target/User-0.0.1-SNAPSHOT.jar azureuser@"$AZURE_VM_IP":/home/azureuser/
+
+      - name: Start User application on VM
+        run: |
+          echo "Starting User application on VM..."
+          ssh -o StrictHostKeyChecking=no -i $GITHUB_WORKSPACE/Galaxys24-ultra_key.pem azureuser@"$AZURE_VM_IP" 'nohup java -jar /home/azureuser/User-0.0.1-SNAPSHOT.jar > /dev/null 2>&1 &'
+      - name: Wait for User app to start
+        run: sleep 10
+
+      - name: Copy Course JAR to VM
+        run: scp -o StrictHostKeyChecking=no -i $GITHUB_WORKSPACE/Galaxys24-ultra_key.pem ./Course/target/Course-0.0.1-SNAPSHOT.jar azureuser@"$AZURE_VM_IP":/home/azureuser/
+
+      - name: Start Course application on VM
+        run: |
+          echo "Starting Course application on VM..."
+          ssh -o StrictHostKeyChecking=no -i $GITHUB_WORKSPACE/Galaxys24-ultra_key.pem azureuser@"$AZURE_VM_IP" 'nohup java -jar /home/azureuser/Course-0.0.1-SNAPSHOT.jar > /dev/null 2>&1 &'
+      - name: Wait for Course app to start
+        run: sleep 10
+
+      - name: Copy Exam JAR to VM
+        run: scp -o StrictHostKeyChecking=no -i $GITHUB_WORKSPACE/Galaxys24-ultra_key.pem ./Exam/target/Exam-0.0.1-SNAPSHOT.jar azureuser@"$AZURE_VM_IP":/home/azureuser/
+
+      - name: Start Exam application on VM
+        run: |
+          echo "Starting Exam application on VM..."
+          ssh -o StrictHostKeyChecking=no -i $GITHUB_WORKSPACE/Galaxys24-ultra_key.pem azureuser@"$AZURE_VM_IP" 'nohup java -jar /home/azureuser/Exam-0.0.1-SNAPSHOT.jar > /dev/null 2>&1 &'
+      - name: Wait for Exam app to start
+        run: sleep 10
+
+      - name: Copy Question JAR to VM
+        run: scp -o StrictHostKeyChecking=no -i $GITHUB_WORKSPACE/Galaxys24-ultra_key.pem ./Question/target/Question-0.0.1-SNAPSHOT.jar azureuser@"$AZURE_VM_IP":/home/azureuser/
+
+      - name: Start Question application on VM
+        run: |
+          echo "Starting Question application on VM..."
+          ssh -o StrictHostKeyChecking=no -i $GITHUB_WORKSPACE/Galaxys24-ultra_key.pem azureuser@"$AZURE_VM_IP" 'nohup java -jar /home/azureuser/Question-0.0.1-SNAPSHOT.jar > /dev/null 2>&1 &'
+      - name: Wait for Question app to start
+        run: sleep 10
+
+      - name: Copy Intake JAR to VM
+        run: scp -o StrictHostKeyChecking=no -i $GITHUB_WORKSPACE/Galaxys24-ultra_key.pem ./Intake/target/Intake-0.0.1-SNAPSHOT.jar azureuser@"$AZURE_VM_IP":/home/azureuser/
+
+      - name: Start Intake application on VM
+        run: |
+          echo "Starting Intake application on VM..."
+          ssh -o StrictHostKeyChecking=no -i $GITHUB_WORKSPACE/Galaxys24-ultra_key.pem azureuser@"$AZURE_VM_IP" 'nohup java -jar /home/azureuser/Intake-0.0.1-SNAPSHOT.jar > /dev/null 2>&1 &'
+      - name: Wait for Intake app to start
+        run: sleep 10

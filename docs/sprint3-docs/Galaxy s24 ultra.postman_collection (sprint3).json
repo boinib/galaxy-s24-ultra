@@ -1,0 +1,737 @@
+{
+	"info": {
+		"_postman_id": "cd359d37-8951-4578-b8ac-3ef4a21266e4",
+		"name": "Galaxy s24 ultra",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30865840"
+	},
+	"item": [
+		{
+			"name": "Localhost",
+			"item": [
+				{
+					"name": "Student",
+					"item": [
+						{
+							"name": "Create student",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"firstName\": \"Jeff\",\r\n    \"lastName\": \"Bezos\",\r\n    \"birthDate\": \"2024-02-24\",\r\n    \"email\":\"lol@gmail.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8082/students",
+									"host": [
+										"localhost"
+									],
+									"port": "8082",
+									"path": [
+										"students"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create teacher",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"firstName\": \"Jeff\",\r\n    \"lastName\": \"Bezos\",\r\n    \"email\":\"lol@gmail.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8082/teachers",
+									"host": [
+										"localhost"
+									],
+									"port": "8082",
+									"path": [
+										"teachers"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get all students",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/students",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"students"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get student",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/students/1",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"students",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Course",
+					"item": [
+						{
+							"name": "Create course",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Wiskunde\",\r\n    \"dateRange\": {\r\n        \"startDate\": \"2034-01-01\",\r\n        \"endDate\": \"2034-02-01\"\r\n    },\r\n    \"registrations\": [],\r\n    \"maximumStudents\": 30,\r\n    \"cesuur\": 5.5\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8081/courses",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"courses"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get course",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8081/courses/1",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"courses",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Register student",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"course\": {\r\n        \"id\": 1\r\n    },\r\n    \"student\": {\r\n        \"studentId\": 1\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8081/courses/register",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"courses",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get number of registrations",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/courses/registrations/1",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"courses",
+										"registrations",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get all courses",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8081/courses/all",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"courses",
+										"all"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "ExamQuestion",
+					"item": [
+						{
+							"name": "getAllQuestions",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE3MTIxMzM2MzEsImV4cCI6MTcxMjIyMDAzMX0.f8xUcgFWUFmqQwLPrIo4HlpOTl1DVz7qmaex4KHf4WQ",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8083/question",
+									"host": [
+										"localhost"
+									],
+									"port": "8083",
+									"path": [
+										"question"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getQuestionById",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE3MTIxMzM2MzEsImV4cCI6MTcxMjIyMDAzMX0.f8xUcgFWUFmqQwLPrIo4HlpOTl1DVz7qmaex4KHf4WQ",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8083/question/1",
+									"host": [
+										"localhost"
+									],
+									"port": "8083",
+									"path": [
+										"question",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "add OrderQuestion",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE3MTIxMzM2MzEsImV4cCI6MTcxMjIyMDAzMX0.f8xUcgFWUFmqQwLPrIo4HlpOTl1DVz7qmaex4KHf4WQ",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"questionText\": \"hmphy shnemvy doo??\",\r\n    \"questionType\": \"order\",\r\n    \"points\": 2,\r\n    \"OrderAnswers\": [\r\n        {\r\n            \"answerText\": \"a1\",\r\n            \"arrangementPosition\": 0\r\n        },\r\n        {\r\n            \"answerText\": \"a2\",\r\n            \"arrangementPosition\": 1\r\n        },\r\n        {\r\n            \"answerText\": \"a3\",\r\n            \"arrangementPosition\": 2\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8083/question",
+									"host": [
+										"localhost"
+									],
+									"port": "8083",
+									"path": [
+										"question"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "add OneOfMultipleQuestion",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE3MTIxMzM2MzEsImV4cCI6MTcxMjIyMDAzMX0.f8xUcgFWUFmqQwLPrIo4HlpOTl1DVz7qmaex4KHf4WQ",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"questionText\": \"hmphy shnemvy doo??\",\r\n    \"questionType\": \"one_of_multiple\",\r\n    \"points\": 1,\r\n    \"dichotomousAnswers\": [\r\n        {\r\n            \"answerText\": \"a1\",\r\n            \"correctAnswer\": false\r\n        },\r\n        {\r\n            \"answerText\": \"a2\",\r\n            \"correctAnswer\": true\r\n        },\r\n        {\r\n            \"answerText\": \"a3\",\r\n            \"correctAnswer\": false\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8083/question",
+									"host": [
+										"localhost"
+									],
+									"port": "8083",
+									"path": [
+										"question"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "add MoreOfMultipleQuestion",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE3MTIxMzM2MzEsImV4cCI6MTcxMjIyMDAzMX0.f8xUcgFWUFmqQwLPrIo4HlpOTl1DVz7qmaex4KHf4WQ",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"questionText\": \"hmphy shnemvy doo??\",\r\n    \"questionType\": \"more_of_multiple\",\r\n    \"points\": 1,\r\n    \"partialScoring\": true,\r\n    \"dichotomousAnswers\": [\r\n        {\r\n            \"answerText\": \"a1\",\r\n            \"correctAnswer\": false\r\n        },\r\n        {\r\n            \"answerText\": \"a2\",\r\n            \"correctAnswer\": true\r\n        },\r\n        {\r\n            \"answerText\": \"a3\",\r\n            \"correctAnswer\": false\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8083/question",
+									"host": [
+										"localhost"
+									],
+									"port": "8083",
+									"path": [
+										"question"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "add OpenQuestion",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE3MTIxMzM2MzEsImV4cCI6MTcxMjIyMDAzMX0.f8xUcgFWUFmqQwLPrIo4HlpOTl1DVz7qmaex4KHf4WQ",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"questionText\": \"hmphy shnemvy doo??\",\r\n    \"questionType\": \"open\",\r\n    \"points\": 4,\r\n    \"exampleAnswer\": \"probably 2 or something.\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8083/question",
+									"host": [
+										"localhost"
+									],
+									"port": "8083",
+									"path": [
+										"question"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Exam",
+					"item": [
+						{
+							"name": "getAllExams",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE3MTIxMzM2MzEsImV4cCI6MTcxMjIyMDAzMX0.f8xUcgFWUFmqQwLPrIo4HlpOTl1DVz7qmaex4KHf4WQ",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8084/exam",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"exam"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "confirm exam",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "localhost:8084/exam/teacherConfirm/1/1",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"exam",
+										"teacherConfirm",
+										"1",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "add exam",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE3MTIxMzM2MzEsImV4cCI6MTcxMjIyMDAzMX0.f8xUcgFWUFmqQwLPrIo4HlpOTl1DVz7qmaex4KHf4WQ",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"hmphy shnemvy doo\",\r\n    \"dateRange\": {\r\n        \"startDate\": \"2024-11-30T00:00:00\",\r\n        \"endDate\": \"2024-12-01T00:00:00\"\r\n    },\r\n    \"questions\": [\r\n        {\r\n            \"questionText\": \"hmphy shnemvy doo??\",\r\n            \"questionType\": \"open\",\r\n            \"points\": 4,\r\n            \"exampleAnswer\": \"probably 2 or something.\"\r\n        },\r\n        {\r\n    \"questionText\": \"hmphy shnemvy doo??\",\r\n    \"questionType\": \"one_of_multiple\",\r\n    \"points\": 1,\r\n    \"dichotomousAnswers\": [\r\n        {\r\n            \"answerText\": \"a1\",\r\n            \"correctAnswer\": false\r\n        },\r\n        {\r\n            \"answerText\": \"a2\",\r\n            \"correctAnswer\": true\r\n        },\r\n        {\r\n            \"answerText\": \"a3\",\r\n            \"correctAnswer\": false\r\n        }\r\n    ]\r\n}\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8084/exam",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"exam"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Azure",
+			"item": [
+				{
+					"name": "Student",
+					"item": [
+						{
+							"name": "Get all students",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://galaxys24ultra-a9fveybycceda7bs.westeurope-01.azurewebsites.net/students",
+									"protocol": "https",
+									"host": [
+										"galaxys24ultra-a9fveybycceda7bs",
+										"westeurope-01",
+										"azurewebsites",
+										"net"
+									],
+									"path": [
+										"students"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create student",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"firstName\": \"Jeff\",\r\n    \"lastName\": \"Bezos\",\r\n    \"birthDate\": \"24-02-2004\",\r\n    \"email\":\"lol@gmail.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://galaxys24ultra-a9fveybycceda7bs.westeurope-01.azurewebsites.net/students",
+									"protocol": "https",
+									"host": [
+										"galaxys24ultra-a9fveybycceda7bs",
+										"westeurope-01",
+										"azurewebsites",
+										"net"
+									],
+									"path": [
+										"students"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "John%20Doe",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get student",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/students/1",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"students",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Course",
+					"item": [
+						{
+							"name": "Get course",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://galaxys24ultra-a9fveybycceda7bs.westeurope-01.azurewebsites.net/courses/1",
+									"protocol": "https",
+									"host": [
+										"galaxys24ultra-a9fveybycceda7bs",
+										"westeurope-01",
+										"azurewebsites",
+										"net"
+									],
+									"path": [
+										"courses",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Course",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "https://galaxys24ultra-a9fveybycceda7bs.westeurope-01.azurewebsites.net/courses",
+									"protocol": "https",
+									"host": [
+										"galaxys24ultra-a9fveybycceda7bs",
+										"westeurope-01",
+										"azurewebsites",
+										"net"
+									],
+									"path": [
+										"courses"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Register student",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "https://galaxys24ultra-a9fveybycceda7bs.westeurope-01.azurewebsites.net/courses/1/students/1",
+									"protocol": "https",
+									"host": [
+										"galaxys24ultra-a9fveybycceda7bs",
+										"westeurope-01",
+										"azurewebsites",
+										"net"
+									],
+									"path": [
+										"courses",
+										"1",
+										"students",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get number of registrations",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://galaxys24ultra-a9fveybycceda7bs.westeurope-01.azurewebsites.net/courses/registrations/1",
+									"protocol": "https",
+									"host": [
+										"galaxys24ultra-a9fveybycceda7bs",
+										"westeurope-01",
+										"azurewebsites",
+										"net"
+									],
+									"path": [
+										"courses",
+										"registrations",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get all courses",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://galaxys24ultra-a9fveybycceda7bs.westeurope-01.azurewebsites.net/courses",
+									"protocol": "https",
+									"host": [
+										"galaxys24ultra-a9fveybycceda7bs",
+										"westeurope-01",
+										"azurewebsites",
+										"net"
+									],
+									"path": [
+										"courses"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}
