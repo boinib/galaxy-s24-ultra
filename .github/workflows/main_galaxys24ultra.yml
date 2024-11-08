@@ -43,19 +43,54 @@ jobs:
         run: |
           echo "Listing all JAR files found:"
           find . -name "*.jar"
-      - name: Deploy and start applications
+          
+
+      - name: Copy User JAR to VM
+        run: scp -o StrictHostKeyChecking=no -i $GITHUB_WORKSPACE/Galaxys24-ultra_key.pem ./User/target/User-0.0.1-SNAPSHOT.jar azureuser@"$AZURE_VM_IP":/home/azureuser/
+
+      - name: Start User application on VM
         run: |
-          modules=("User" "Course" "Exam" "Question" "Intake")
-          
-          for module in "${modules[@]}"; do
-            JAR_PATH="./$module/target/$module-0.0.1-SNAPSHOT.jar"
-            echo "Deploying $module JAR to VM..."
-          
-            scp -o StrictHostKeyChecking=no -i $GITHUB_WORKSPACE/azure_key.pem $JAR_PATH azureuser@${{ secrets.AZURE_VM_IP }}:/home/azureuser/
-          
-            echo "Starting $module application on VM..."
-            ssh -o StrictHostKeyChecking=no -i $GITHUB_WORKSPACE/azure_key.pem azureuser@${{ secrets.AZURE_VM_IP }} \
-              "nohup java -jar /home/azureuser/$(basename $JAR_PATH) > /dev/null 2>&1 &"
-          
-            sleep 10
-          done
+          echo "Starting User application on VM..."
+          ssh -o StrictHostKeyChecking=no -i $GITHUB_WORKSPACE/Galaxys24-ultra_key.pem azureuser@"$AZURE_VM_IP" 'nohup java -jar /home/azureuser/User-0.0.1-SNAPSHOT.jar > /dev/null 2>&1 &'
+      - name: Wait for User app to start
+        run: sleep 10
+
+      - name: Copy Course JAR to VM
+        run: scp -o StrictHostKeyChecking=no -i $GITHUB_WORKSPACE/Galaxys24-ultra_key.pem ./Course/target/Course-0.0.1-SNAPSHOT.jar azureuser@"$AZURE_VM_IP":/home/azureuser/
+
+      - name: Start Course application on VM
+        run: |
+          echo "Starting Course application on VM..."
+          ssh -o StrictHostKeyChecking=no -i $GITHUB_WORKSPACE/Galaxys24-ultra_key.pem azureuser@"$AZURE_VM_IP" 'nohup java -jar /home/azureuser/Course-0.0.1-SNAPSHOT.jar > /dev/null 2>&1 &'
+      - name: Wait for Course app to start
+        run: sleep 10
+
+      - name: Copy Exam JAR to VM
+        run: scp -o StrictHostKeyChecking=no -i $GITHUB_WORKSPACE/Galaxys24-ultra_key.pem ./Exam/target/Exam-0.0.1-SNAPSHOT.jar azureuser@"$AZURE_VM_IP":/home/azureuser/
+
+      - name: Start Exam application on VM
+        run: |
+          echo "Starting Exam application on VM..."
+          ssh -o StrictHostKeyChecking=no -i $GITHUB_WORKSPACE/Galaxys24-ultra_key.pem azureuser@"$AZURE_VM_IP" 'nohup java -jar /home/azureuser/Exam-0.0.1-SNAPSHOT.jar > /dev/null 2>&1 &'
+      - name: Wait for Exam app to start
+        run: sleep 10
+
+      - name: Copy Question JAR to VM
+        run: scp -o StrictHostKeyChecking=no -i $GITHUB_WORKSPACE/Galaxys24-ultra_key.pem ./Question/target/Question-0.0.1-SNAPSHOT.jar azureuser@"$AZURE_VM_IP":/home/azureuser/
+
+      - name: Start Question application on VM
+        run: |
+          echo "Starting Question application on VM..."
+          ssh -o StrictHostKeyChecking=no -i $GITHUB_WORKSPACE/Galaxys24-ultra_key.pem azureuser@"$AZURE_VM_IP" 'nohup java -jar /home/azureuser/Question-0.0.1-SNAPSHOT.jar > /dev/null 2>&1 &'
+      - name: Wait for Question app to start
+        run: sleep 10
+
+      - name: Copy Intake JAR to VM
+        run: scp -o StrictHostKeyChecking=no -i $GITHUB_WORKSPACE/Galaxys24-ultra_key.pem ./Intake/target/Intake-0.0.1-SNAPSHOT.jar azureuser@"$AZURE_VM_IP":/home/azureuser/
+
+      - name: Start Intake application on VM
+        run: |
+          echo "Starting Intake application on VM..."
+          ssh -o StrictHostKeyChecking=no -i $GITHUB_WORKSPACE/Galaxys24-ultra_key.pem azureuser@"$AZURE_VM_IP" 'nohup java -jar /home/azureuser/Intake-0.0.1-SNAPSHOT.jar > /dev/null 2>&1 &'
+      - name: Wait for Intake app to start
+        run: sleep 10
