@@ -26,6 +26,7 @@ jobs:
         run: |
           echo "Listing target directory:"
           ls -la **/target/*.jar
+
       - name: Upload JAR artifacts
         uses: actions/upload-artifact@v3
         with:
@@ -39,6 +40,11 @@ jobs:
       name: 'Production'
 
     steps:
+      - name: Download JAR artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: jar-artifacts
+
       - name: Set up SSH private key
         run: echo "${{secrets.AZURE_SSH_KEY}}" > $GITHUB_WORKSPACE/azure_key.pem
 
@@ -49,11 +55,14 @@ jobs:
         run: |
           echo "Testing SSH connection to VM:"
           ssh -o StrictHostKeyChecking=no -i $GITHUB_WORKSPACE/azure_key.pem azureuser@${{secrets.AZURE_VM_IP}} 'echo "SSH connection successful!"'
-      - name: List JAR files found
-        run: |
-          echo "Listing all JAR files found:"
-          find . -name "*.jar"
-          
+
+      - name: Check target directory
+        run: ls -la **/target/
+
+      - name: List JAR files
+        run: find . -name "*.jar"
+
+
 
       - name: Copy User JAR to VM
         run: scp -o StrictHostKeyChecking=no -i $GITHUB_WORKSPACE/azure_key.pem ./User/target/User-0.0.1-SNAPSHOT.jar azureuser@${{secrets.AZURE_VM_IP}}:/home/azureuser/
