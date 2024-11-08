@@ -1,4 +1,4 @@
-name: Build and Deploy JAR Applications
+name: Build and deploy JAR app - galaxys24ultra
 
 on:
   push:
@@ -21,6 +21,16 @@ jobs:
 
       - name: Build project with Maven
         run: mvn clean package
+
+      - name: List target directory
+        run: |
+          echo "Listing target directory:"
+          ls -la **/target/*.jar
+      - name: Upload JAR artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: jar-artifacts
+          path: '**/target/*.jar'
 
   deploy:
     runs-on: ubuntu-latest
