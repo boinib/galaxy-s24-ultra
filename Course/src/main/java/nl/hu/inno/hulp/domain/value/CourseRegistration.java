@@ -1,16 +1,19 @@
 package nl.hu.inno.hulp.domain.value;
 
-import jakarta.persistence.Embeddable;
 import nl.hu.inno.hulp.domain.course.Course;
 import nl.hu.inno.hulp.domain.person.Student;
+import org.springframework.data.cassandra.core.mapping.CassandraType;
+import org.springframework.data.cassandra.core.mapping.UserDefinedType;
 
 
 import java.util.Objects;
 
-@Embeddable
+@UserDefinedType("course_registration")
 public final class CourseRegistration {
 
+    @CassandraType(type = CassandraType.Name.TEXT)
     private String studentEmail;
+    @CassandraType(type = CassandraType.Name.TEXT)
     private String courseName;
 
     public CourseRegistration(String studentEmail, String courseName) {

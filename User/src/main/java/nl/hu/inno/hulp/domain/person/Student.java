@@ -3,15 +3,18 @@ package nl.hu.inno.hulp.domain.person;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import nl.hu.inno.hulp.domain.value.Email;
+import org.hibernate.annotations.GenericGenerator;
 
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Entity
 public class Student {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long studentId;
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    private UUID studentId = UUID.randomUUID();
     @Embedded
     private Email email;
     private String firstName;
@@ -32,7 +35,17 @@ public class Student {
         this.propedeuseGehaald = propedeuseGehaald;
     }
 
-    public Long getStudentId() {
+    public Student(UUID studentId, Email email, String firstName, String lastName, LocalDate birthDate, int ec, boolean propedeuseGehaald) {
+        this.studentId = studentId;
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthDate = birthDate;
+        this.EC = ec;
+        this.propedeuseGehaald = propedeuseGehaald;
+    }
+
+    public UUID getStudentId() {
         return studentId;
     }
 

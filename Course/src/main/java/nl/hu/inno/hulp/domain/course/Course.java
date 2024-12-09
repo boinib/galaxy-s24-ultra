@@ -1,49 +1,52 @@
 package nl.hu.inno.hulp.domain.course;
 
-import jakarta.persistence.*;
-import nl.hu.inno.hulp.domain.value.CourseRegistration;
 import nl.hu.inno.hulp.domain.value.DateRange;
 import nl.hu.inno.hulp.domain.value.Grade;
-
+import nl.hu.inno.hulp.domain.value.CourseRegistration;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.cassandra.core.mapping.CassandraType;
+import org.springframework.data.cassandra.core.mapping.Column;
+import org.springframework.data.cassandra.core.mapping.Table;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
-@Entity
+@Table("courses")
 public class Course {
     @Id
-    @GeneratedValue
-    private Long id;
-
+    private UUID id = UUID.randomUUID();
+    @Column("name")
     private String name;
-
-    @Embedded
+    @Column("date_range")
     private DateRange dateRange;
-    @Embedded
-    private Grade cesuur; //cesuur
-
+    @Column("grade")
+    private Grade cesuur;
+    @Column("maximum_students")
     private int maximumStudents;
+    @Column("minimum_ec")
     private int minimumEC;
+    @Column("propedeuse_required")
     private boolean propedeuseRequired;
-
-    @ElementCollection
+    @Column("registrations")
     private List<CourseRegistration> registrations = new ArrayList<>();
 
-    protected Course() {
-
+    public Course() {
+        this.registrations = new ArrayList<>();
     }
 
-    public Course(String name, DateRange dateRange,List<CourseRegistration> registrations,int maximumStudents, Grade cesuur, int minimumEC, boolean propedeuseRequired) {
+    public Course(String name, DateRange dateRange,List<CourseRegistration> registrations, int maximumStudents, Grade grade, int minimumEC, boolean propedeuseRequired) {
         this.name = name;
-        this.dateRange = new DateRange(dateRange.getStartDate(), dateRange.getEndDate());
+        this.dateRange = dateRange;
+        this.registrations = registrations != null ? registrations : new ArrayList<>();
         this.maximumStudents = maximumStudents;
-        this.cesuur = cesuur;
+        this.cesuur = grade;
         this.minimumEC = minimumEC;
         this.propedeuseRequired = propedeuseRequired;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
@@ -55,16 +58,12 @@ public class Course {
         return dateRange;
     }
 
-    public List<CourseRegistration> getRegistrations() {
-        return registrations;
+    public Grade getCesuur() {
+        return cesuur;
     }
 
     public int getMaximumStudents() {
         return maximumStudents;
-    }
-
-    public Grade getCesuur() {
-        return cesuur;
     }
 
     public int getMinimumEC() {
@@ -73,6 +72,10 @@ public class Course {
 
     public boolean isPropedeuseRequired() {
         return propedeuseRequired;
+    }
+
+    public List<CourseRegistration> getRegistrations() {
+        return registrations;
     }
 
     public void addRegistration(CourseRegistration registration) {
@@ -87,5 +90,4 @@ public class Course {
         LocalDate today = LocalDate.now();
         return !today.isBefore(dateRange.getStartDate()) && !today.isAfter(dateRange.getEndDate());
     }
-
 }

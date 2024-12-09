@@ -1,6 +1,6 @@
 package nl.hu.inno.hulp.application;
 
-
+import jakarta.validation.Valid;
 import nl.hu.inno.hulp.data.CourseRepository;
 import nl.hu.inno.hulp.data.StudentRepository;
 import nl.hu.inno.hulp.domain.course.Course;
@@ -9,8 +9,8 @@ import nl.hu.inno.hulp.domain.value.CourseRegistration;
 import nl.hu.inno.hulp.domain.value.DateRange;
 import nl.hu.inno.hulp.domain.value.Email;
 import nl.hu.inno.hulp.domain.value.Grade;
-import nl.hu.inno.hulp.exceptions.CourseNotFoundException;
-import nl.hu.inno.hulp.exceptions.StudentNotFoundException;
+import nl.hu.inno.hulp.domain.exceptions.CourseNotFoundException;
+import nl.hu.inno.hulp.domain.exceptions.StudentNotFoundException;
 import nl.hu.inno.hulp.presentation.DTO.CourseDTO;
 import nl.hu.inno.hulp.presentation.DTO.StudentDTO;
 import nl.hu.inno.hulp.rabbitmq.RabbitMQConfig;
@@ -39,12 +39,12 @@ public class CourseService {
         return courseRepository.findAll();
     }
 
-    public Course getCourse(CourseDTO courseDTO) {
+    public Course getCourse(CourseDTO courseDTO) throws CourseNotFoundException {
         return courseRepository.findById(courseDTO.getId())
-                .orElse(null);
+                .orElseThrow(() -> new CourseNotFoundException("Course with id " + courseDTO.getId() + " not found"));
     }
 
-    public Course createCourse(CourseDTO courseDTO) {
+    public Course createCourse(@Valid CourseDTO courseDTO) {
         Course course = new Course(
                 courseDTO.getName(),
                 new DateRange(courseDTO.getDateRange().getStartDate(), courseDTO.getDateRange().getEndDate()),
@@ -54,15 +54,14 @@ public class CourseService {
                 courseDTO.getMinimumEC(),
                 courseDTO.isPropedeuseRequired()
         );
-        courseRepository.save(course);
-        return course;
+        return courseRepository.save(course);
     }
 
     public Course registerStudent(CourseDTO courseDTO, StudentDTO studentDTO) throws CourseNotFoundException, StudentNotFoundException {
         Course course = courseRepository.findById(courseDTO.getId())
                 .orElseThrow(() -> new CourseNotFoundException("Course not found"));
 
-        Student student = studentRepository.findById(studentDTO.getStudentId())
+        Student student = studentRepository.findByStudentId(studentDTO.getStudentId())
                 .orElseThrow(() -> new StudentNotFoundException("Student not found in the database"));
 
         CourseRegistration.validateRegistration(course, student);
@@ -76,14 +75,13 @@ public class CourseService {
         return courseRepository.save(course);
     }
 
-
-
-    public int getNumberOfRegistrations(CourseDTO courseDTO) {
+    public int getNumberOfRegistrations(CourseDTO courseDTO) throws CourseNotFoundException {
         Course course = courseRepository.findById(courseDTO.getId())
-                .orElseThrow(() -> new RuntimeException("Course not found"));
+                .orElseThrow(() -> new CourseNotFoundException("Course not found"));
 
         return course.getRegistrations().size();
     }
+
     public static Student StudentDtoToStudent(StudentDTO studentDTO) {
         Email email = new Email(studentDTO.getEmail().getValue());
         return new Student(

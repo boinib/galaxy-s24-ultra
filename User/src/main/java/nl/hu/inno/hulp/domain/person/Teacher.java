@@ -2,14 +2,16 @@ package nl.hu.inno.hulp.domain.person;
 
 import jakarta.persistence.*;
 import nl.hu.inno.hulp.domain.value.Email;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.util.Date;
+import java.util.UUID;
 
 @Entity
 public class Teacher {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long teacherId;
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")    private UUID teacherId;
     @Embedded
     private Email email;
     private String firstName;
@@ -27,7 +29,7 @@ public class Teacher {
 
     }
 
-    public Long getTeacherId() {
+    public UUID getTeacherId() {
         return teacherId;
     }
 

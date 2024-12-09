@@ -27,6 +27,7 @@ public class RabbitMQConsumer {
             StudentDTO studentDTO = objectMapper.readValue(message, StudentDTO.class);
 
             Student student = new Student(
+                    studentDTO.getStudentId(),
                     new Email(studentDTO.getEmail().getValue()),
                     studentDTO.getFirstName(),
                     studentDTO.getLastName(),
@@ -35,7 +36,7 @@ public class RabbitMQConsumer {
                     studentDTO.isPropedeuseGehaald()
             );
             studentRepository.save(student);
-            System.out.println("Student saved from queue: " + studentDTO.getFirstName() + " " + studentDTO.getLastName());
+            System.out.println("Student saved from queue:" + studentDTO.getStudentId() +  " " + studentDTO.getFirstName() + " " + studentDTO.getLastName());
         } catch (Exception e) {
             e.printStackTrace();
         }

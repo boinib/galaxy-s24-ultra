@@ -2,21 +2,23 @@ package nl.hu.inno.hulp.domain.value;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import org.springframework.data.cassandra.core.mapping.CassandraType;
+import org.springframework.data.cassandra.core.mapping.UserDefinedType;
 
-@Embeddable
+
+@UserDefinedType("grade")
 public final class Grade {
 
-    @Column(name="cesuur")
-    private double value;
+    private Double value;
 
-    public Grade(double value) {
+    public Grade(Double value) {
         if (value < 1 || value > 10) {
             throw new IllegalArgumentException("Grade must be between 1 and 10");
         }
         this.value = value;
     }
 
-    public double getValue() {
+    public Double getValue() {
         return value;
     }
 

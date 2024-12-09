@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 
 @RestController
@@ -34,8 +35,9 @@ public class StudentController {
     public Student addStudent(@RequestBody StudentDTO studentDTO) {
         return studentService.addStudent(studentDTO);
     }
+
     @GetMapping("/{studentId}")
-    public Student getStudentbyID(@PathVariable Long studentId) {
+    public Student getStudentbyID(@PathVariable UUID studentId) {
         return studentService.getStudentById(studentId);
     }
 

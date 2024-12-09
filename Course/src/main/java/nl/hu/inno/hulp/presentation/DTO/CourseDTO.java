@@ -4,9 +4,10 @@ package nl.hu.inno.hulp.presentation.DTO;
 import nl.hu.inno.hulp.domain.course.Course;
 import nl.hu.inno.hulp.domain.value.DateRange;
 import nl.hu.inno.hulp.domain.value.Grade;
+import java.util.UUID;
 
 public class CourseDTO {
-    private Long id;
+    private UUID id;
     private String name;
     private DateRange dateRange;
     private int maximumStudents;
@@ -27,7 +28,7 @@ public class CourseDTO {
         this.propedeuseRequired = course.isPropedeuseRequired();
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 

@@ -23,6 +23,7 @@ public class RabbitMQProducer {
         try {
             String message = objectMapper.writeValueAsString(studentDTO);
             rabbitTemplate.convertAndSend(RabbitMQConfig.STUDENT_QUEUE, message);
+            System.out.println(message);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }

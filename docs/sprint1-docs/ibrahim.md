@@ -307,7 +307,47 @@ Service automatisch staren bij het opstarten
 Om te checken
 
 ```sudo systemctl status rabbitmq-docker.service```
+-------------------
+### No SQL Database
+```docker exec -it scylla cqlsh```
+
+```CREATE KEYSPACE testkeyspace WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 1};```
+```
+CREATE TYPE testkeyspace.grade (
+    value double
+);
+```
+```
+CREATE TYPE testkeyspace.course_registration (
+studentemail text,     
+coursename text);
+```
+
+```
+CREATE TYPE testkeyspace.date_range (
+    startDate date,
+    endDate date,
+    period text
+);
+```
+```
+CREATE TABLE IF NOT EXISTS testkeyspace.courses (
+    id UUID PRIMARY KEY,
+    name text,
+    date_range frozen<date_range>,
+    grade frozen<grade>,
+    maximum_students int,
+    minimum_ec int,
+    propedeuse_required boolean,
+    registrations frozen<list<course_registration>>);
+```
+```DESCRIBE testkeyspace```
 
 
+
+```SELECT * FROM testkeyspace.students;```
+![img.png](img.png)
+```SELECT * FROM testkeyspace.courses;```
+![img_1.png](img_1.png)
 
 

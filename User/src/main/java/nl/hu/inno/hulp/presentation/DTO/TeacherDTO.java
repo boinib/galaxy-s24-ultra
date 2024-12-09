@@ -4,9 +4,10 @@ import nl.hu.inno.hulp.domain.person.Student;
 import nl.hu.inno.hulp.domain.value.Email;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 public class TeacherDTO {
-    private Long teacherId;
+    private UUID teacherId;
     private Email email;
     private String firstName;
     private String lastName;
@@ -22,7 +23,7 @@ public class TeacherDTO {
         this.birthDate = student.getBirthDate();
     }
 
-    public Long getTeacherId() {
+    public UUID getTeacherId() {
         return teacherId;
     }
 

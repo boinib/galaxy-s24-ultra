@@ -1,4 +1,4 @@
-version: '3'
+version: '3.9'
 services:
   rabbitmq:
     image: rabbitmq:management
@@ -10,8 +10,34 @@ services:
       RABBITMQ_DEFAULT_USER: admin
       RABBITMQ_DEFAULT_PASS: admin
     networks:
-      - rabbitmq_network
+      - app_network
+
+  scylla:
+    image: scylladb/scylla:latest
+    container_name: scylla
+    ports:
+      - "9042:9042"  # Voor Cassandra/Scylla-query's
+      - "9160:9160"  # (optioneel) Voor oudere clients
+      - "10000:10000"  # Voeg de poort voor de webinterface toe
+    environment:
+      - SCYLLA_SEEDS=127.0.0.1
+      - SCYLLA_CLUSTER_NAME=ScyllaCluster
+      - SCYLLA_DATACENTER=datacenter1
+      - SCYLLA_RACK=rack1
+      - SCYLLA_HTTP_ENABLED=true  # Zet HTTP-webinterface aan
+      - SCYLLA_HTTP_PORT=10000    # Stel de poort in op 10000
+    volumes:
+      - scylla-data:/var/lib/scylla
+      - scylla-logs:/var/log/scylla
+      - scylla-config:/etc/scylla
+    networks:
+      - app_network
 
 networks:
-  rabbitmq_network:
+  app_network:
     driver: bridge
+
+volumes:
+  scylla-data:
+  scylla-logs:
+  scylla-config:

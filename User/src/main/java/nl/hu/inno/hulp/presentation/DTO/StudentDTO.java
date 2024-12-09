@@ -5,9 +5,10 @@ import nl.hu.inno.hulp.domain.person.Student;
 import nl.hu.inno.hulp.domain.value.Email;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 public class StudentDTO {
-    private Long studentId;
+    private String studentId;
     private String email;
     private String firstName;
     private String lastName;
@@ -18,7 +19,7 @@ public class StudentDTO {
     public StudentDTO() {}
 
     public StudentDTO(Student student) {
-        this.studentId = student.getStudentId();
+        this.studentId = String.valueOf(student.getStudentId());
         this.email = student.getEmail().getValue();
         this.firstName = student.getFirstName();
         this.lastName = student.getLastName();
@@ -27,7 +28,7 @@ public class StudentDTO {
         this.propedeuseGehaald = student.isPropedeuseGehaald();
     }
 
-    public StudentDTO(Long studentId, Email email, String firstName, String lastName, LocalDate birthDate, int ec, boolean propedeuseGehaald) {
+    public StudentDTO(String studentId, Email email, String firstName, String lastName, LocalDate birthDate, int ec, boolean propedeuseGehaald) {
         this.studentId = studentId;
         this.email = email.getValue();
         this.firstName = firstName;
@@ -37,7 +38,7 @@ public class StudentDTO {
         this.propedeuseGehaald = propedeuseGehaald;
     }
 
-    public Long getStudentId() {
+    public String getStudentId() {
         return studentId;
     }
 

@@ -9,6 +9,8 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.UUID;
+
 @Service
 public class RabbitMQConsumer {
 
@@ -24,13 +26,13 @@ public class RabbitMQConsumer {
     @RabbitListener(queues = "student_request_queue")
     public String handleStudentRequest(String message) {
         try {
-            Long studentId = objectMapper.readValue(message, Long.class);
+            UUID studentId = objectMapper.readValue(message, UUID.class);
             Student student = studentRepository.findById(studentId).orElse(null);
 
             if (student != null) {
                 Email email = student.getEmail();
                 StudentDTO studentDTO = new StudentDTO(
-                        student.getStudentId(),
+                        student.getStudentId().toString(),
                         email,
                         student.getFirstName(),
                         student.getLastName(),

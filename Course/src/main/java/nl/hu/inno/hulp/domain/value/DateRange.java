@@ -1,18 +1,16 @@
 package nl.hu.inno.hulp.domain.value;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Embeddable;
+import org.springframework.data.cassandra.core.mapping.CassandraType;
+import org.springframework.data.cassandra.core.mapping.UserDefinedType;
 
 import java.time.LocalDate;
 import java.time.Month;
 
-@Embeddable
+@UserDefinedType("date_range")
 public final class DateRange {
-
-    @Column(name="start_date")
+    @CassandraType(type = CassandraType.Name.DATE)
     private LocalDate startDate;
-
-    @Column(name="end_date")
+    @CassandraType(type = CassandraType.Name.DATE)
     private LocalDate endDate;
 
     private String period;

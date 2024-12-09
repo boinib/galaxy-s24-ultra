@@ -1,14 +1,14 @@
 package nl.hu.inno.hulp.presentation.DTO;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import nl.hu.inno.hulp.domain.person.Student;
 import nl.hu.inno.hulp.domain.value.Email;
 
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 public class StudentDTO {
-    private Long studentId;
+    private UUID studentId;
     private Email email;
     private String firstName;
     private String lastName;
@@ -28,7 +28,7 @@ public class StudentDTO {
         this.propedeuseGehaald = student.isPropedeuseGehaald();
     }
 
-    public Long getStudentId() {
+    public UUID getStudentId() {
         return studentId;
     }
 
